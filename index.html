@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+  <meta name="theme-color" content="#120826">
+  <meta name="description" content="A magical, romantic birthday surprise website dedicated to Marwa. Happy Birthday Marwa!">
+  <title>Happy Birthday Marwa ❤️ | A Magical Surprise</title>
+
+  <!-- Google Fonts Preconnect -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300&display=swap" rel="stylesheet">
+
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Floating Canvas Background Layers -->
+  <canvas id="particles-canvas" aria-hidden="true"></canvas>
+  <canvas id="confetti-canvas" aria-hidden="true"></canvas>
+
+  <!-- Ambient Romantic Glow Lights -->
+  <div class="ambient-glow ambient-glow-1" aria-hidden="true"></div>
+  <div class="ambient-glow ambient-glow-2" aria-hidden="true"></div>
+  <div class="ambient-glow ambient-glow-3" aria-hidden="true"></div>
+
+  <!-- Audio Controller Floating Widget -->
+  <div id="audio-controller" class="audio-controller" role="button" aria-label="Toggle background music" tabindex="0">
+    <div class="music-waves" aria-hidden="true">
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    <div class="audio-label">
+      <span class="music-note">🎵</span>
+      <span>Music: Off</span>
+    </div>
+  </div>
+
+  <!-- Main Viewport -->
+  <main class="app-viewport">
+
+    <!-- ======================================================================
+         STAGE 1: WELCOME & UNLOCK
+         ====================================================================== -->
+    <section id="stage-password" class="stage-section active" aria-labelledby="stage1-heading">
+      <button id="skip-btn-intro" type="button" class="skip-btn" onclick="window.handleSkip(event)" aria-label="Skip to Next Screen">
+        <span>Skip</span>
+        <span aria-hidden="true">❯</span>
+      </button>
+
+      <div class="password-box">
+        <div class="heart-badge" aria-hidden="true">💖</div>
+        <h1 id="stage1-heading" class="stage1-title">A Special Surprise For Someone Special ❤️</h1>
+        <p class="stage1-subtitle">A magical birthday surprise created with love, just for Marwa...</p>
+
+        <button id="unlock-btn" type="button" class="btn-romantic" style="font-size: 1.15rem; padding: 18px 36px; margin-top: 10px;" onclick="window.handleUnlockSurprise(event)">
+          <span>Open Your Surprise</span>
+          <span aria-hidden="true">✨❤️</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         STAGE 2: ANIMATED GIANT HEART
+         ====================================================================== -->
+    <section id="stage-heart" class="stage-section" aria-labelledby="birthday-title">
+      <button id="skip-btn" type="button" class="skip-btn" onclick="window.handleSkip(event)" aria-label="Skip to Memories">
+        <span>Skip</span>
+        <span aria-hidden="true">❯</span>
+      </button>
+
+      <div class="heart-stage-wrapper">
+        
+        <div class="heart-svg-container" id="heart-container">
+          <svg class="heart-svg" viewBox="0 0 500 500" aria-label="Animated Hand-drawn Heart">
+            <defs>
+              <!-- Stroke Gradient -->
+              <linearGradient id="heartGradient" x1="0%" y1="100%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#ff1493" />
+                <stop offset="35%" stop-color="#ff4d6d" />
+                <stop offset="70%" stop-color="#ff758c" />
+                <stop offset="100%" stop-color="#f4b6a9" />
+              </linearGradient>
+
+              <!-- Radial Fill Glow Gradient -->
+              <radialGradient id="heartFillGradient" cx="50%" cy="40%" r="65%">
+                <stop offset="0%" stop-color="rgba(255, 77, 109, 0.75)" />
+                <stop offset="45%" stop-color="rgba(225, 29, 72, 0.45)" />
+                <stop offset="85%" stop-color="rgba(168, 85, 247, 0.15)" />
+                <stop offset="100%" stop-color="transparent" />
+              </radialGradient>
+
+              <!-- Glow filter for drawing pen spark -->
+              <filter id="penGlow" x="-50%" y="-50%" width="200%" height="200%">
+                <feGaussianBlur stdDeviation="4" result="blur" />
+                <feMerge>
+                  <feMergeNode in="blur" />
+                  <feMergeNode in="blur" />
+                  <feMergeNode in="SourceGraphic" />
+                </feMerge>
+              </filter>
+            </defs>
+
+            <!-- Guide background path -->
+            <path 
+              class="heart-path-bg" 
+              d="M 250, 420 C 140, 310 40, 230 40, 140 C 40, 60 110, 20 185, 20 C 225, 20 245, 50 250, 80 C 255, 50 275, 20 315, 20 C 390, 20 460, 60 460, 140 C 460, 230 360, 310 250, 420 Z" 
+            />
+
+            <!-- Hand-drawn progressive animated path -->
+            <path 
+              id="heart-path-draw" 
+              class="heart-path-draw" 
+              d="M 250, 420 C 140, 310 40, 230 40, 140 C 40, 60 110, 20 185, 20 C 225, 20 245, 50 250, 80 C 255, 50 275, 20 315, 20 C 390, 20 460, 60 460, 140 C 460, 230 360, 310 250, 420 Z" 
+            />
+
+            <!-- Glowing Pen Spark Tip in SVG coordinate space -->
+            <circle id="pen-spark" cx="250" cy="420" r="7" fill="#ffffff" filter="url(#penGlow)" opacity="0" />
+          </svg>
+        </div>
+
+        <!-- Birthday Message that reveals after heart is drawn -->
+        <div id="birthday-message-wrap" class="birthday-message-wrap">
+          <h2 id="birthday-title" class="birthday-title">
+            HAPPY BIRTHDAY MARWA <span class="birthday-heart-icon">❤️</span>
+          </h2>
+          <p class="birthday-script">You make every single moment brighter and sweeter ✨</p>
+          <button id="btn-goto-memories" type="button" class="btn-romantic btn-proceed" onclick="window.handleGotoMemories(event)">
+            <span>See Your Memories</span>
+            <span aria-hidden="true">🌹</span>
+          </button>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         STAGE 3: HER MEMORIES AND BIRTHDAY WISHES
+         ====================================================================== -->
+    <section id="stage-gallery" class="stage-section" aria-labelledby="gallery-title">
+      <div class="gallery-section-inner">
+        
+        <header class="gallery-header">
+          <div class="gallery-badge">
+            <span aria-hidden="true">✨</span>
+            <span>A Dedicated Birthday Album</span>
+            <span aria-hidden="true">✨</span>
+          </div>
+          <h2 id="gallery-title" class="gallery-main-title">
+            Memories & Birthday Wishes for <span>Marwa</span> ❤️
+          </h2>
+        </header>
+
+        <!-- Carousel / Interactive Memory Cards -->
+        <div class="carousel-container" id="carousel-container">
+          <div class="slides-wrapper" id="slides-wrapper">
+            
+            <!-- Card 1 -->
+            <article class="memory-card active" data-index="0" aria-label="Memory Card 1">
+              <div class="photo-frame-wrap">
+                <img src="assets/images/marwa-1.jpg" alt="Marwa - Beautiful Memory" loading="lazy" />
+                <div class="photo-badge">
+                  <span aria-hidden="true">✨</span>
+                  <span>Special Moments</span>
+                </div>
+              </div>
+              <div class="message-content-wrap">
+                <div class="message-counter">
+                  <span>Memory 01 of 04</span>
+                </div>
+                <blockquote class="message-quote">
+                  <span class="quote-decor" aria-hidden="true">“</span>
+                  Happy Birthday, Marwa! ❤️ Today is your special day, and I hope it brings you endless happiness, beautiful memories, and everything your heart wishes for.
+                </blockquote>
+                <div class="message-signature">~ With warmest wishes 💖</div>
+              </div>
+            </article>
+
+            <!-- Card 2 -->
+            <article class="memory-card" data-index="1" aria-label="Memory Card 2">
+              <div class="photo-frame-wrap">
+                <img src="assets/images/marwa-2.jpg" alt="Marwa - Joyful Smile" loading="lazy" />
+                <div class="photo-badge">
+                  <span aria-hidden="true">☀️</span>
+                  <span>Pure Sunshine</span>
+                </div>
+              </div>
+              <div class="message-content-wrap">
+                <div class="message-counter">
+                  <span>Memory 02 of 04</span>
+                </div>
+                <blockquote class="message-quote">
+                  <span class="quote-decor" aria-hidden="true">“</span>
+                  You deserve all the beautiful things in this world. Never stop smiling, because your smile makes everything brighter.
+                </blockquote>
+                <div class="message-signature">~ Keep shining always ✨</div>
+              </div>
+            </article>
+
+            <!-- Card 3 -->
+            <article class="memory-card" data-index="2" aria-label="Memory Card 3">
+              <div class="photo-frame-wrap">
+                <img src="assets/images/marwa-3.jpg" alt="Marwa - Blooming Roses" loading="lazy" />
+                <div class="photo-badge">
+                  <span aria-hidden="true">🌹</span>
+                  <span>Forever Blooming</span>
+                </div>
+              </div>
+              <div class="message-content-wrap">
+                <div class="message-counter">
+                  <span>Memory 03 of 04</span>
+                </div>
+                <blockquote class="message-quote">
+                  <span class="quote-decor" aria-hidden="true">“</span>
+                  May every new year of your life bring you closer to your dreams. Stay beautiful, stay happy, and always be yourself.
+                </blockquote>
+                <div class="message-signature">~ To endless dreams & joy 🌸</div>
+              </div>
+            </article>
+
+            <!-- Card 4 (Grand Finale Wish) -->
+            <article class="memory-card" data-index="3" aria-label="Memory Card 4 - Grand Finale">
+              <div class="photo-frame-wrap" style="border-color: rgba(252, 211, 77, 0.45); box-shadow: 0 15px 40px rgba(225, 29, 72, 0.4);">
+                <img src="assets/images/marwa-3.jpg" alt="Marwa - Birthday Celebration" loading="lazy" />
+                <div class="photo-badge" style="background: rgba(40, 10, 25, 0.85); border-color: rgba(252, 211, 77, 0.5); color: #fcd34d;">
+                  <span aria-hidden="true">👑</span>
+                  <span>Birthday Queen</span>
+                </div>
+              </div>
+              <div class="message-content-wrap">
+                <div class="message-counter">
+                  <span style="color: #fcd34d;">Final Birthday Wish ⭐</span>
+                </div>
+                <blockquote class="message-quote">
+                  <span class="quote-decor" aria-hidden="true">“</span>
+                  Happy Birthday once again, Marwa! ❤️ I hope this little surprise makes your day as special as you are. You deserve the best, today and always.
+                </blockquote>
+                <div class="message-signature">~ Today & Always, With All My Heart ❤️</div>
+              </div>
+            </article>
+
+          </div>
+
+          <!-- Carousel Controls -->
+          <nav class="carousel-controls" aria-label="Memory gallery pagination">
+            <button id="prev-slide" type="button" class="carousel-nav-btn" aria-label="Previous Memory" onclick="window.prevSlide(event)">❮</button>
+            <div class="carousel-dots" id="carousel-dots" role="tablist">
+              <!-- Dots generated dynamically via JS -->
+            </div>
+            <button id="next-slide" type="button" class="carousel-nav-btn" aria-label="Next Memory" onclick="window.nextSlide(event)">❯</button>
+          </nav>
+        </div>
+
+        <!-- Footer Actions -->
+        <footer class="gallery-footer-actions">
+          <button id="btn-final-surprise" type="button" class="btn-grand-surprise" onclick="window.openSurpriseModal(event)">
+            <span>One More Surprise</span>
+            <span aria-hidden="true">❤️</span>
+          </button>
+          <button id="btn-replay" type="button" class="btn-secondary" onclick="window.location.reload()">
+            <span>Replay Experience</span>
+            <span aria-hidden="true">🔁</span>
+          </button>
+        </footer>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ======================================================================
+       FINAL SURPRISE MODAL (LOVE LETTER)
+       ====================================================================== -->
+  <aside id="surprise-modal" class="surprise-modal" aria-modal="true" role="dialog" aria-labelledby="modal-title">
+    <div class="modal-content-card">
+      <button id="modal-close" type="button" class="modal-close-btn" aria-label="Close Letter" onclick="window.closeSurpriseModal(event)">&times;</button>
+      <div class="envelope-icon" aria-hidden="true">💌</div>
+      <h3 id="modal-title" class="modal-title">To Dearest Marwa ❤️</h3>
+      
+      <div class="modal-letter-body">
+        <p>
+          Every moment with you is precious. On this birthday and in every day of the upcoming year, may your life be filled with unconditional happiness, magical adventures, pure laughter, and dreams turned into reality.
+        </p>
+        <p>
+          Thank you for bringing your warmth, beauty, and radiant spirit into this world. Never forget how genuinely loved and cherished you are!
+        </p>
+      </div>
+
+      <div class="modal-signature">Happy Birthday Marwa 💕</div>
+
+      <div class="modal-actions">
+        <button id="modal-confetti-btn" class="btn-romantic" style="width: auto;">
+          <span>More Love & Confetti!</span>
+          <span aria-hidden="true">🎉</span>
+        </button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Application Scripts with Cache Buster -->
+  <script src="js/particles.js?v=5.0"></script>
+  <script src="js/confetti.js?v=5.0"></script>
+  <script src="js/audio.js?v=5.0"></script>
+  <script src="js/main.js?v=5.0"></script>
+</body>
+</html>
